@@ -11,12 +11,13 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { getItem } from "@/common/storage";
-
-import enContent from "@/data/en-content";
+import useContent from "@/hook/useContent";
 
 export default function results() {
 	const navigator = useNavigation<any>();
 	let { ...data } = useLocalSearchParams();
+
+	const content = useContent();
 
 	// get the image from the async storage and save it to the state
 	const [imageUri, setImageUri] = useState<string | null>(null);
@@ -48,7 +49,7 @@ export default function results() {
 					/>
 				</Pressable>
 				<Text className="text-3xl text-center font-bold">
-					{enContent.resultsContent.title}
+					{content.resultsContent.title}
 				</Text>
 			</View>
 
@@ -71,11 +72,11 @@ export default function results() {
 
 				<View className="px-4 mt-4">
 					<Text className="text-lg font-light mb-1">
-						{enContent.resultsContent.confidenceTextPart1}{" "}
+						{content.resultsContent.confidenceTextPart1}{" "}
 						{Number(
 							parseFloat(data.confidence as string).toFixed(4)
 						) * 100}
-						{enContent.resultsContent.confidenceTextPart2}{" "}
+						{content.resultsContent.confidenceTextPart2}{" "}
 					</Text>
 					<Text className="text-3xl font-bold capitalize">
 						{data.className}
@@ -86,7 +87,7 @@ export default function results() {
 
 				<View className="px-4 py-2 mt-4 bg-green-200 mx-4 rounded-xl">
 					<Text className="text-lg font-light mb-1">
-						{enContent.resultsContent.sectionNames[0]}
+						{content.resultsContent.sectionNames[0]}
 					</Text>
 					<Text className="text-base font-normal">
 						Groundnut rosette is a disease that affects groundnut
@@ -103,7 +104,7 @@ export default function results() {
 
 				<View className="px-4 py-2 mt-4 bg-green-200 mx-4 rounded-xl">
 					<Text className="text-lg font-light mb-1">
-						{enContent.resultsContent.sectionNames[1]}
+						{content.resultsContent.sectionNames[1]}
 					</Text>
 					<Text className="text-base font-normal">
 						The disease can be identified by the appearance of
@@ -117,7 +118,7 @@ export default function results() {
 				{/* How to prevent */}
 				<View className="px-4 py-2 mt-4 bg-green-200 mx-4 rounded-xl">
 					<Text className="text-lg font-light mb-1">
-						{enContent.resultsContent.sectionNames[2]}
+						{content.resultsContent.sectionNames[2]}
 					</Text>
 					<Text className="text-base font-normal">
 						The disease can be prevented by using resistant
@@ -130,7 +131,7 @@ export default function results() {
 				{/* How to treat */}
 				<View className="px-4 py-2 mt-4 bg-green-200 mx-4 rounded-xl">
 					<Text className="text-lg font-light mb-1">
-						{enContent.resultsContent.sectionNames[3]}
+						{content.resultsContent.sectionNames[3]}
 					</Text>
 					<Text className="text-base font-normal">
 						The disease can be treated by using resistant varieties

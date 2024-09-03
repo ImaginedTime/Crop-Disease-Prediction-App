@@ -1,27 +1,21 @@
-import { createContext, useContext } from "react";
+import { createContext, useState } from "react";
 
 type UserContextType = {
-  lang: string;
-  setLang: (value: string) => void
+	lang: string;
+	setLang: (lang: string) => void;
 };
 
-const UserContext = createContext({
-  lang: "en",
-  setLang: () => {}
-} as UserContextType);
+export const UserContext = createContext<UserContextType>({
+	lang: "",
+	setLang: () => {},
+});
 
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+	const [lang, setLang] = useState("");
 
-const UserContextProvider = ({children}: {children: React.ReactNode}) => {
-    const [lang, setLang] = useState<string>('en');
-
-    return (
-        <UserContext.Provider
-            value={{
-                lang,
-                setLang,
-            }}
-        >
-            {children}
-        </UserContext.Provider>
-    )
-}
+	return (
+		<UserContext.Provider value={{ lang, setLang }}>
+			{children}
+		</UserContext.Provider>
+	);
+};

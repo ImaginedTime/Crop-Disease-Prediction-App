@@ -9,16 +9,18 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 
-import enContent from "@/data/en-content";
+import useContent from "@/hook/useContent";
 
 export default function index() {
 	const navigator = useNavigation<any>();
 
+	const content = useContent();
+
 	return (
 		<SafeAreaView>
-			<ScrollView endFillColor={"#208F4F"}>
+			<ScrollView>
 				<View
 					className="h-[40vh] w-[110vw] bg-[#208F4F] absolute top-0"
 					style={{
@@ -33,13 +35,25 @@ export default function index() {
 					}}
 				></View>
 
+				<Pressable
+					className="absolute right-0 bg-gray-500 rounded-xl m-4 p-2"
+					onPress={() => {
+						navigator.navigate("lang");
+					}}
+				>
+					<Image
+						source={require("@/assets/icons/lang.png")}
+						className="w-6 h-6"
+					/>
+				</Pressable>
+
 				<View className="px-6 py-10 relative">
 					<View>
 						<Text className="text-white text-xl font-semibold">
-							{enContent.homeData.title}
+							{content.homeData.title}
 						</Text>
 						<Text className="text-white text-sm font-semibold">
-							{enContent.homeData.description}
+							{content.homeData.description}
 						</Text>
 					</View>
 
@@ -56,7 +70,15 @@ export default function index() {
 									className="w-8 h-8"
 								/>
 							</View>
-							<Text>{enContent.homeData.guideTexts[0]}</Text>
+							<Text
+								className="text-center"
+								style={{
+									maxWidth:
+										Dimensions.get("window").width * 0.25,
+								}}
+							>
+								{content.homeData.guideTexts[0]}
+							</Text>
 						</View>
 
 						<Image
@@ -72,7 +94,15 @@ export default function index() {
 									className="w-8 h-8"
 								/>
 							</View>
-							<Text>{enContent.homeData.guideTexts[1]}</Text>
+							<Text
+								className="text-center"
+								style={{
+									maxWidth:
+										Dimensions.get("window").width * 0.3,
+								}}
+							>
+								{content.homeData.guideTexts[1]}
+							</Text>
 						</View>
 
 						<Image
@@ -88,14 +118,22 @@ export default function index() {
 									className="w-8 h-8"
 								/>
 							</View>
-							<Text>{enContent.homeData.guideTexts[2]}</Text>
+							<Text
+								className="text-center"
+								style={{
+									maxWidth:
+										Dimensions.get("window").width * 0.25,
+								}}
+							>
+								{content.homeData.guideTexts[2]}
+							</Text>
 						</View>
 					</Pressable>
 				</View>
 
 				<View className="px-6 mb-6">
 					<Text className="text-xl font-bold">
-						{enContent.homeData.categoriesTitle}
+						{content.homeData.categoriesTitle}
 					</Text>
 
 					<ImageBackground
@@ -109,7 +147,7 @@ export default function index() {
 							style={{ borderRadius: 20 }}
 						>
 							<Text className="text-white text-xl uppercase text-center font-bold">
-								{enContent.homeData.categories[0]}
+								{content.homeData.categories[0]}
 							</Text>
 						</View>
 					</ImageBackground>
@@ -124,7 +162,7 @@ export default function index() {
 							style={{ borderRadius: 20 }}
 						>
 							<Text className="text-white text-xl uppercase text-center font-bold">
-								{enContent.homeData.categories[1]}
+								{content.homeData.categories[1]}
 							</Text>
 						</View>
 					</ImageBackground>

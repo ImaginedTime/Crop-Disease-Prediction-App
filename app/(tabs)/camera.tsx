@@ -6,6 +6,7 @@ import {
 	Image,
 	Platform,
 	Pressable,
+	ScrollView,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
@@ -23,11 +24,13 @@ import axios from "axios";
 import { setItem } from "@/common/storage";
 import { useNavigation } from "expo-router";
 
-import enContent from "@/data/en-content";
+import useContent from "@/hook/useContent";
 
 export default function App() {
 	const source = axios.CancelToken.source();
 	const navigator = useNavigation<any>();
+
+	const content = useContent();
 
 	const [permission, requestPermission] = useCameraPermissions();
 
@@ -37,7 +40,8 @@ export default function App() {
 	const [cropType, setCropType] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 
-	const crop_types: { [key: string]: string } = enContent.cameraContent.cropNames;
+	const crop_types: { [key: string]: string } =
+		content.cameraContent.cropNames;
 
 	const requestStoragePermission = async () => {
 		if (Platform.OS !== "web") {
@@ -161,7 +165,7 @@ export default function App() {
 				className: response.data.class,
 				confidence: response.data.confidence,
 			});
-		} catch (error) {
+		} catch (error: any) {
 			if (error.response) {
 				console.log("Server responded with:", error.response.data); // Detailed error from FastAPI
 			} else {
@@ -180,32 +184,71 @@ export default function App() {
 	if (!permission.granted) {
 		// Camera permissions are not granted yet.
 		return (
-			<View style={styles.container}>
+			<ScrollView
+				className="flex-1"
+				contentContainerStyle={{
+					justifyContent: "center",
+					alignItems: "center",
+				}}
+			>
+				<View
+					className="h-[40vh] w-[110vw] bg-[#208F4F] absolute top-0"
+					style={{
+						borderBottomLeftRadius: 100,
+						borderBottomRightRadius: 100,
+					}}
+				></View>
 				<Text
 					style={styles.message}
 					className="text-lg font-semibold px-20"
 				>
-					{enContent.cameraContent.permissionDescription}
+					{content.cameraContent.permissionDescription}
 				</Text>
 				<Pressable
 					onPress={requestPermission}
 					className="bg-[#208F4F] py-2 px-4 rounded-xl"
 				>
 					<Text className="text-white text-xl">
-						{enContent.cameraContent.permissionButtonText}
+						{content.cameraContent.permissionButtonText}
 					</Text>
 				</Pressable>
-			</View>
+			</ScrollView>
 		);
 	}
 
 	return (
-		<View style={styles.container}>
+		<ScrollView
+			className="flex-1"
+			contentContainerStyle={{
+				alignItems: "center",
+				justifyContent: "center",
+			}}
+		>
+			<View
+				className="h-[40vh] w-[110vw] bg-[#208F4F] absolute top-0"
+				style={{
+					borderBottomLeftRadius: 100,
+					borderBottomRightRadius: 100,
+				}}
+			>
+				<Pressable
+					className="self-end bg-gray-500 rounded-xl p-2 m-8"
+					onPress={() => {
+						navigator.navigate("lang");
+					}}
+				>
+					<Image
+						source={require("@/assets/icons/lang.png")}
+						className="w-6 h-6"
+					/>
+				</Pressable>
+			</View>
+
 			{imageUri === null && (
-				<>
+				<View className="mt-12">
 					<View>
-						<Text className="text-lg text-center font-bold p-8">
-							{enContent.cameraContent.description}
+						<Text className="text-lg text-center font-bold p-8 text-white">
+							{content.cameraContent.description}
 						</Text>
 					</View>
 					<View className="justify-center items-center">
@@ -232,16 +275,21 @@ export default function App() {
 								onPress={pickImage}
 								className="text-lg text-white"
 							>
-								{enContent.cameraContent.chooseImageText}
+								{content.cameraContent.chooseImageText}
 							</Text>
 						</Pressable>
 					</View>
-				</>
+				</View>
 			)}
 
 			{imageUri && (
 				<>
-					<View className="border-4 border-[#208F4F] rounded-xl overflow-hidden">
+					<View
+						className="border-4 border-white rounded-xl overflow-hidden"
+						style={{
+							elevation: 10,
+						}}
+					>
 						<Image
 							source={{ uri: imageUri }}
 							style={styles.imageStyles}
@@ -260,8 +308,8 @@ export default function App() {
 					>
 						<Text className="text-lg text-white text-center">
 							{loading
-								? enContent.cameraContent.cancelRequestText
-								: enContent.cameraContent.removeImageText}
+								? content.cameraContent.cancelRequestText
+								: content.cameraContent.removeImageText}
 						</Text>
 					</Pressable>
 
@@ -327,10 +375,7 @@ export default function App() {
 							{!loading && (
 								<>
 									<Text className="text-lg text-white text-center mr-5">
-										{
-											enContent.cameraContent
-												.analyzeImageText
-										}
+										{content.cameraContent.analyzeImageText}
 									</Text>
 									<Image
 										source={require("@/assets/icons/analyze.png")}
@@ -349,16 +394,11 @@ export default function App() {
 					)}
 				</>
 			)}
-		</View>
+		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
 	message: {
 		textAlign: "center",
 		paddingBottom: 10,
@@ -380,7 +420,9 @@ const styles = StyleSheet.create({
 		),
 		overflow: "hidden",
 		borderWidth: 4,
-		borderColor: "#208F4F",
+		// borderColor: "#208F4F",
+		borderColor: "white",
+		elevation: 10,
 	},
 	camera: {
 		width: Math.min(

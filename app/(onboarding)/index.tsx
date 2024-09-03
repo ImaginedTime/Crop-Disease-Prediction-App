@@ -4,24 +4,27 @@ import JoinButton from "@/components/joinButton";
 
 import { Swipeable } from "react-native-gesture-handler";
 
-import { Link, useNavigation } from "expo-router";
-
-import enContent from "@/data/en-content";
+import { useNavigation } from "expo-router";
+import useContent from "@/hook/useContent";
+import { setItem } from "@/common/storage";
 
 export default function index() {
 	const navigator = useNavigation<any>();
+
+	const content = useContent();
 
 	const images = [
 		require("@/assets/onboarding-images/1.png"),
 		require("@/assets/onboarding-images/2.png"),
 		require("@/assets/onboarding-images/3.png"),
 	];
-	const titles = enContent.onboardingData.titles;
-	const texts = enContent.onboardingData.texts;
+	const titles = content.onboardingData.titles;
+	const texts = content.onboardingData.texts;
 
 	const [index, setIndex] = useState(0);
 	const [prevIndex, setPrevIndex] = useState(0);
-	const [reverseAnimationDirection, setReverseAnimationDirection] = useState(false);
+	const [reverseAnimationDirection, setReverseAnimationDirection] =
+		useState(false);
 	const [leftSwipe, setLeftSwipe] = useState(false);
 
 	const anim = useRef(new Animated.Value(1)).current;
@@ -164,8 +167,9 @@ export default function index() {
 
 				<View style={styles.buttonContainer}>
 					<JoinButton
-						onPress={() => {
+						onPress={async () => {
 							navigator.navigate("(tabs)");
+							await setItem("onboarded", true);
 						}}
 					/>
 				</View>
