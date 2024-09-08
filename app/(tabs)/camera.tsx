@@ -1,5 +1,5 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import {
 	ActivityIndicator,
 	Dimensions,
@@ -25,12 +25,16 @@ import { setItem } from "@/common/storage";
 import { useNavigation } from "expo-router";
 
 import useContent from "@/hook/useContent";
+import { UserContext } from "@/context/userContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
 	const source = axios.CancelToken.source();
 	const navigator = useNavigation<any>();
 
 	const content = useContent();
+
+	const { lang } = useContext(UserContext);
 
 	const [permission, requestPermission] = useCameraPermissions();
 
@@ -124,24 +128,31 @@ export default function App() {
 
 		const resizedUri = await resizeImage(imageUri);
 
-		console.log(cropType);
-
+		formData.append("lang", lang || "en");
 		formData.append("crop_type", cropType);
 
 		formData.append("image", {
 			uri: resizedUri,
 			name: "image.jpg",
-			type: "image/jpg",
-		});
+			type: "image/jpeg",
+		} as any);
 
 		// const image = await fetch(imageUri).then((res) => res.blob());
 		// formData.append("image", image, "image.jpg");
 
+		let url = "https://excited-redbird-sought.ngrok-free.app";
+
+		try{
+			await axios.get(url);
+			console.log("ngrok is running");
+		}
+		catch(error){
+			console.log("ngrok is not running");
+			url = "https://crop-disease-prediction-sih-backend.onrender.com";
+		}
+
 		try {
 			console.log("starting the api call");
-
-			let url = process.env.EXPO_PUBLIC_BACKEND_URL;
-
 			console.log(`${url}/predict/`);
 
 			let response = await axios.post(`${url}/predict/`, formData, {
@@ -151,7 +162,7 @@ export default function App() {
 				cancelToken: source.token,
 			});
 
-			console.log(response.data);
+			// console.log(response.data);
 
 			setLoading(false);
 
@@ -160,14 +171,12 @@ export default function App() {
 				return;
 			}
 
-			navigator.navigate("results/index", {
-				imageUri: imageUri,
-				className: response.data.class,
-				confidence: response.data.confidence,
-			});
+			await setItem("results", JSON.stringify(response.data));
+
+			navigator.navigate("results/index");
 		} catch (error: any) {
 			if (error.response) {
-				console.log("Server responded with:", error.response.data); // Detailed error from FastAPI
+				console.log("Server responded with:", error.response.data);
 			} else {
 				console.log("Error:", error.message);
 			}
@@ -184,12 +193,8 @@ export default function App() {
 	if (!permission.granted) {
 		// Camera permissions are not granted yet.
 		return (
-			<ScrollView
-				className="flex-1"
-				contentContainerStyle={{
-					justifyContent: "center",
-					alignItems: "center",
-				}}
+			<SafeAreaView
+				className="flex-1 justify-center items-center"
 			>
 				<View
 					className="h-[40vh] w-[110vw] bg-[#208F4F] absolute top-0"
@@ -212,18 +217,12 @@ export default function App() {
 						{content.cameraContent.permissionButtonText}
 					</Text>
 				</Pressable>
-			</ScrollView>
+			</SafeAreaView>
 		);
 	}
 
 	return (
-		<ScrollView
-			className="flex-1"
-			contentContainerStyle={{
-				alignItems: "center",
-				justifyContent: "center",
-			}}
-		>
+		<SafeAreaView className="flex-1 justify-center items-center">
 			<View
 				className="h-[40vh] w-[110vw] bg-[#208F4F] absolute top-0"
 				style={{
@@ -245,7 +244,7 @@ export default function App() {
 			</View>
 
 			{imageUri === null && (
-				<View className="mt-12">
+				<View className="mt-2">
 					<View>
 						<Text className="text-lg text-center font-bold p-8 text-white">
 							{content.cameraContent.description}
@@ -270,7 +269,7 @@ export default function App() {
 							/>
 						</TouchableOpacity>
 
-						<Pressable className="bg-[#208F4F] py-2 px-4 rounded-xl mt-10">
+						<Pressable className="bg-[#208F4F] py-2 px-4 rounded-xl mt-2">
 							<Text
 								onPress={pickImage}
 								className="text-lg text-white"
@@ -317,13 +316,13 @@ export default function App() {
 						<SelectDropdown
 							data={Object.keys(crop_types)}
 							onSelect={(selectedItem, index) => {
-								setCropType(crop_types[selectedItem]);
+								setCropType(selectedItem);
 							}}
 							renderButton={(selectedItem, isOpened) => {
 								return (
 									<View style={styles.dropdownButtonStyle}>
 										<Text className="text-white text-lg">
-											{selectedItem ?? "Crop Type"}
+											{crop_types[selectedItem] ?? content.cameraContent.cropTypeText}
 										</Text>
 										<Image
 											source={require("@/assets/icons/dropdown.png")}
@@ -355,7 +354,7 @@ export default function App() {
 										<Text
 											style={styles.dropdownItemTxtStyle}
 										>
-											{item}
+											{crop_types[item]}
 										</Text>
 									</View>
 								);
@@ -394,7 +393,7 @@ export default function App() {
 					)}
 				</>
 			)}
-		</ScrollView>
+		</SafeAreaView>
 	);
 }
 

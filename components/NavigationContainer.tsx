@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export const unstable_settings = {
-	// Ensure any route can link back to `/`
-	initialRouteName: "results/index",
+	initialRouteName: "lang",
 };
 
 export default function RootLayout() {
@@ -15,6 +14,8 @@ export default function RootLayout() {
 	useEffect(() => {
 		(async () => {
 			let onboarded = await getItem("onboarded");
+
+			let lang = await getItem("lang");
 
 			if (onboarded) {
 				setOnboarded(true);
@@ -26,7 +27,7 @@ export default function RootLayout() {
 		<UserProvider>
 			<GestureHandlerRootView>
 				<Stack
-					initialRouteName={`${onboarded ? "(tabs)" : "(tabs)"}`}
+					initialRouteName={`"lang"`}
 					screenOptions={{
 						headerShown: false,
 					}}

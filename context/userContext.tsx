@@ -1,3 +1,4 @@
+import { setItem } from "@/common/storage";
 import { createContext, useState } from "react";
 
 type UserContextType = {
@@ -11,7 +12,14 @@ export const UserContext = createContext<UserContextType>({
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-	const [lang, setLang] = useState("");
+	const [lang, changeLang] = useState("");
+
+	const setLang = (lang: string) => {
+		(async () => {
+			changeLang(lang);
+			await setItem("lang", lang);
+		})();
+	};
 
 	return (
 		<UserContext.Provider value={{ lang, setLang }}>
