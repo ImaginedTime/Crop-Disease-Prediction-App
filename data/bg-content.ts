@@ -50,7 +50,13 @@ const bgContent = {
 		title: "ফলাফল",
 		confidenceTextPart1: "আমরা ",
 		confidenceTextPart2: "% আত্মবিশ্বাসী যে এটি ",
-		sectionNames: [
+		sectionNamesDisease: [
+			"সারাংশ",
+			"কিভাবে সনাক্ত করবেন",
+			"কিভাবে প্রতিরোধ করবেন",
+			"কিভাবে চিকিৎসা করবেন",
+		],
+		sectionNamesHealthy: [
 			"সারাংশ",
 			"কিভাবে সনাক্ত করবেন",
 			"কিভাবে প্রতিরোধ করবেন",

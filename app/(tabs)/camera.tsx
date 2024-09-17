@@ -6,7 +6,6 @@ import {
 	Image,
 	Platform,
 	Pressable,
-	ScrollView,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
@@ -143,7 +142,14 @@ export default function App() {
 		let url = "https://excited-redbird-sought.ngrok-free.app";
 
 		try{
-			await axios.get(url);
+			// await axios.get(url);
+			// console.log("ngrok is running");
+
+			// try to call the api, and set the timeout for the api call be 2 seconds, if it fails, then use the render url
+			let response = await axios.get(url, {
+				timeout: 2000,
+			});
+
 			console.log("ngrok is running");
 		}
 		catch(error){

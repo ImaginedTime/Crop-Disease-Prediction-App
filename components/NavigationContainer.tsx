@@ -15,8 +15,6 @@ export default function RootLayout() {
 		(async () => {
 			let onboarded = await getItem("onboarded");
 
-			let lang = await getItem("lang");
-
 			if (onboarded) {
 				setOnboarded(true);
 			}

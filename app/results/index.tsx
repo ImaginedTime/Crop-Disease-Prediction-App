@@ -6,12 +6,16 @@ import {
 	Dimensions,
 	ScrollView,
 	Pressable,
+	BackHandler,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useNavigation } from "expo-router";
 import { getItem } from "@/common/storage";
 import useContent from "@/hook/useContent";
+import MyTTS from "@/components/tts";
+
+import * as Speech from "expo-speech";
 
 export default function results() {
 	const navigator = useNavigation<any>();
@@ -22,15 +26,20 @@ export default function results() {
 	const [confidence, setConfidence] = useState<string>("");
 	const [sections, setSections] = useState<any>({});
 
-	const [titles, setTitles] = useState<string[]>([
-		"Summary",
-		"How to Identify",
-		"How to Prevent",
-		"How to Treat",
-	]);
+	const [titles, setTitles] = useState<string[]>([]);
+	const [titlesLang, setTitlesLang] = useState<string[]>([]);
+
+	const [combinedContent, setCombinedContent] = useState<string[]>([]);
 
 	// get the image from the async storage and save it to the state
 	const [imageUri, setImageUri] = useState<string | null>(null);
+
+	BackHandler.addEventListener("hardwareBackPress", () => {
+		console.log("Navigating back to camera");
+		Speech.stop();
+		navigator.navigate("(tabs)", { screen: "camera" });
+		return true;
+	});
 
 	useEffect(() => {
 		(async () => {
@@ -43,7 +52,15 @@ export default function results() {
 
 				console.log(data);
 
-				if (!(Object.keys(data.info).includes("Disease Name") || Object.keys(data.info).includes("Disease name"))) {
+				if (Object.keys(data.info).includes("Disease Name")) {
+					setTitles([
+						"Summary",
+						"How to Identify",
+						"How to Prevent",
+						"How to Treat",
+					]);
+					setClassName(data.info["Disease Name Lang"]);
+				} else {
 					setTitles([
 						"Summary",
 						"How to Identify",
@@ -51,16 +68,6 @@ export default function results() {
 						"How to Treat",
 					]);
 					setClassName(data.info["Crop Name"]);
-				}
-				else {
-					setTitles([
-						"Summary",
-						"How to Identify",
-						"How to Prevent",
-						"How to Treat",
-					]);	
-					
-					setClassName(data.info["Disease Name Lang"]);
 				}
 
 				setSections(data.info);
@@ -75,6 +82,40 @@ export default function results() {
 		})();
 	}, []);
 
+	useEffect(() => {
+		let combinedContent = [] as string[];
+
+		combinedContent.push(
+			content.resultsContent.confidenceTextPart1 +
+				" " +
+				(Number(parseFloat(confidence as string)) * 100)
+					.toString()
+					.substring(0, 5) +
+				" " +
+				content.resultsContent.confidenceTextPart2 +
+				" " +
+				className +
+				" "
+		);
+
+		for (let i = 0; i < titles.length; i++) {
+			combinedContent.push(
+				titlesLang[i] + " " + sections[titles[i]] + " "
+			);
+		}
+
+		setCombinedContent(combinedContent);
+
+		if (
+			sections.info &&
+			Object.keys(sections.info).includes("Disease Name")
+		) {
+			setTitlesLang(content.resultsContent.sectionNamesDisease);
+		} else {
+			setTitlesLang(content.resultsContent.sectionNamesHealthy);
+		}
+	}, [content, sections, titles, className, confidence]);
+
 	return (
 		<SafeAreaView className="flex-1">
 			<View className="mt-4 mb-6 sticky justify-center">
@@ -82,6 +123,7 @@ export default function results() {
 					className="absolute z-10"
 					onPress={() => {
 						console.log("Navigating back to camera");
+						Speech.stop();
 						navigator.navigate("(tabs)", { screen: "camera" });
 					}}
 				>
@@ -116,7 +158,9 @@ export default function results() {
 				<View className="px-4 mt-4">
 					<Text className="text-lg font-light mb-1">
 						{content.resultsContent.confidenceTextPart1}{" "}
-						{(Number(parseFloat(confidence as string)) * 100).toString().substring(0, 5)}
+						{(Number(parseFloat(confidence as string)) * 100)
+							.toString()
+							.substring(0, 5)}
 						{content.resultsContent.confidenceTextPart2}{" "}
 					</Text>
 					<Text className="text-3xl font-bold capitalize">
@@ -129,13 +173,17 @@ export default function results() {
 						key={index}
 						className="px-4 py-2 mt-4 bg-green-200 mx-4 rounded-xl"
 					>
-						<Text className="text-lg font-light mb-1">{title}</Text>
+						<Text className="text-lg font-light mb-1">
+							{titlesLang[index]}
+						</Text>
 						<Text className="text-base font-normal">
 							{sections[title]}
 						</Text>
 					</View>
 				))}
 			</ScrollView>
+
+			<MyTTS texts={combinedContent} />
 		</SafeAreaView>
 	);
 }

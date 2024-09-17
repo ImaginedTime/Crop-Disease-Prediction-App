@@ -50,10 +50,16 @@ const gjContent = {
 		title: "પરિણામો",
 		confidenceTextPart1: "અમને ",
 		confidenceTextPart2: "% વિશ્વાસ છે કે આ છે ",
-		sectionNames: [
+		sectionNamesDisease: [
 			"સારાંશ",
 			"કેવી રીતે ઓળખવું",
 			"કેવી રીતે રોકવું",
+			"કેવી રીતે સારવાર કરવી",
+		],
+		sectionNamesHealthy: [
+			"સારાંશ",
+			"કેવી રીતે ઓળખવું",
+			"કેવી રીતે સારવાર કરવી",
 			"કેવી રીતે સારવાર કરવી",
 		],
 	},

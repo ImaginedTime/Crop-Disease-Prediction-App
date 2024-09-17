@@ -51,7 +51,13 @@ const odContent = {
 		title: "ଫଳାଫଳ",
 		confidenceTextPart1: "ଆମେ ",
 		confidenceTextPart2: "% ନିଶ୍ଚିତ ଅଛୁଅହାଁ",
-		sectionNames: [
+		sectionNamesDisease: [
+			"ସଂକ୍ଷେପ",
+			"କିପରି ଚିହ୍ନଟ କରିବେ",
+			"କିପରି ରୋକିବେ",
+			"କିପରି ଚିକିତ୍ସା କରିବେ",
+		],
+		sectionNamesHealthy: [
 			"ସଂକ୍ଷେପ",
 			"କିପରି ଚିହ୍ନଟ କରିବେ",
 			"କିପରି ରୋକିବେ",

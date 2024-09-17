@@ -59,7 +59,13 @@ const mlContent = {
 		title: "ഫലങ്ങൾ",
 		confidenceTextPart1: "നമുക്ക് ",
 		confidenceTextPart2: "% വിശ്വാസം ഈ ",
-		sectionNames: [
+		sectionNamesDisease: [
+			"സംക്ഷിപ്തം",
+			"എങ്ങനെ തിരിച്ചറിയാം",
+			"എങ്ങനെ പ്രതിരോധിക്കാം",
+			"എങ്ങനെ ചികിത്സിക്കാം",
+		],
+		sectionNamesHealthy: [
 			"സംക്ഷിപ്തം",
 			"എങ്ങനെ തിരിച്ചറിയാം",
 			"എങ്ങനെ പ്രതിരോധിക്കാം",

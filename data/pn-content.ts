@@ -51,11 +51,17 @@ const pnContent = {
 		title: "ਨਤੀਜੇ",
 		confidenceTextPart1: "ਸਾਨੂੰ ",
 		confidenceTextPart2: "% ਯਕੀਨ ਹੈ ਕਿ ਇਹ ",
-		sectionNames: [
+		sectionNamesDisease: [
 			"ਸੰਖੇਪ",
 			"ਕਿਵੇਂ ਪਛਾਣਾਂ",
 			"ਕਿਵੇਂ ਰੋਕਿਆ ਜਾਵੇ",
 			"ਇਲਾਜ ਕਿਵੇਂ ਕੀਤਾ ਜਾਵੇ",
+		],
+		sectionNamesHealthy: [
+			"ਸੰਖੇਪ",
+			"ਕਿਵੇਂ ਪਛਾਣਾਂ",
+			"ਕਿਵੇਂ ਰੋਕਿਆ ਜਾਵੇ",
+			"ਕਿਵੇਂ ਰੋਗ ਨੂੰ ਸੁਧਾਰਿਆ ਜਾਵੇ",
 		],
 	},
 };

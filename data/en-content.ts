@@ -51,11 +51,17 @@ const enContent = {
 		title: "Results",
 		confidenceTextPart1: "We are ",
 		confidenceTextPart2: "% confident that this is ",
-		sectionNames: [
+		sectionNamesDisease: [
 			"Summary",
 			"How to identify",
 			"How to prevent",
 			"How to treat",
+		],
+		sectionNamesHealthy: [
+			"Summary",
+			"How to Identify",
+			"How to Maintain",
+			"How to Treat",
 		],
 	},
 };

@@ -51,7 +51,13 @@ const maContent = {
 		title: "निकाल",
 		confidenceTextPart1: "आम्हाला ",
 		confidenceTextPart2: "% खात्री आहे की हे ",
-		sectionNames: [
+		sectionNamesDisease: [
+			"सारांश",
+			"ओळख कशी करावी",
+			"प्रतिबंध कसा करावा",
+			"उपचार कसा करावा",
+		],
+		sectionNamesHealthy: [
 			"सारांश",
 			"ओळख कशी करावी",
 			"प्रतिबंध कसा करावा",

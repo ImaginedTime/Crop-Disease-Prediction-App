@@ -55,10 +55,16 @@ const hiContent = {
 		title: "परिणाम",
 		confidenceTextPart1: "हमें ",
 		confidenceTextPart2: "% विश्वास है कि यह है ",
-		sectionNames: [
+		sectionNamesDisease: [
 			"सारांश",
 			"कैसे पहचानें",
 			"कैसे रोकें",
+			"कैसे इलाज करें",
+		],
+		sectionNamesHealthy: [
+			"सारांश",
+			"कैसे पहचानें",
+			"कैसे बनाए रखें",
 			"कैसे इलाज करें",
 		],
 	},

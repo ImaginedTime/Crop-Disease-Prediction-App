@@ -55,11 +55,17 @@ const knContent = {
 		title: "ಫಲಿತಾಂಶಗಳು",
 		confidenceTextPart1: "ನಮಗೆ ",
 		confidenceTextPart2: "% ನಂಬಿಕೆ ಇದೆ ಇದು ",
-		sectionNames: [
+		sectionNamesDisease: [
 			"ಸಾರಾಂಶ",
 			"ಹೆಚಣೆಯಾದರೂ ಹೇಗೆ?",
 			"ತಡೆಗಟ್ಟುವುದು ಹೇಗೆ?",
 			"ಚಿಕಿತ್ಸೆಯನ್ನು ಹೇಗೆ ಮಾಡುವುದು?",
+		],
+		sectionNamesHealthy: [
+			"ಸಾರಾಂಶ",
+			"ಹೇಗೆ ಗುರುತಿಸಬೇಕು",
+			"ಹೇಗೆ ಉಳಿಸಬೇಕು",
+			"ಹೇಗೆ ಚಿಕಿತ್ಸೆ ಮಾಡಬೇಕು",
 		],
 	},
 };

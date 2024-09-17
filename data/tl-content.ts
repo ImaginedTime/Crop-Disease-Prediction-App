@@ -54,7 +54,13 @@ const tlContent = {
 		title: "ఫలితాలు",
 		confidenceTextPart1: "మాకు ",
 		confidenceTextPart2: "% నమ్మకంగా ఉంది ఇది ",
-		sectionNames: [
+		sectionNamesDisease: [
+			"సారాంశం",
+			"ఎలా గుర్తించాలి",
+			"ఎలా నివారించాలి",
+			"ఎలా చికిత్స చేయాలి",
+		],
+		sectionNamesHealthy: [
 			"సారాంశం",
 			"ఎలా గుర్తించాలి",
 			"ఎలా నివారించాలి",

@@ -38,6 +38,20 @@ export const langOptions = {
   ma: "मराठी",
 };
 
+export const langCodes = {
+  en: "en",
+  hi: "hi",
+  tm: "ta",
+  tl: "te",
+  kn: "kn",
+  ml: "ml",
+  gj: "gu",
+  bg: "bn",
+  od: "ori",
+  pn: "pa",
+  ma: "mr",
+};
+
 export default langMap;
 
 
