@@ -138,8 +138,8 @@ export default function App() {
 
 		// const image = await fetch(imageUri).then((res) => res.blob());
 		// formData.append("image", image, "image.jpg");
-
-		let url = "https://excited-redbird-sought.ngrok-free.app";
+		
+		let url = "https://crop-disease-prediction-sih-backend.onrender.com";
 
 		try{
 			// await axios.get(url);
@@ -150,11 +150,11 @@ export default function App() {
 				timeout: 2000,
 			});
 
-			console.log("ngrok is running");
+			console.log("render backend is running");
 		}
 		catch(error){
-			console.log("ngrok is not running");
-			url = "https://crop-disease-prediction-sih-backend.onrender.com";
+			console.log("render backend is not running");
+			url = "https://excited-redbird-sought.ngrok-free.app";
 		}
 
 		try {
@@ -182,7 +182,7 @@ export default function App() {
 			navigator.navigate("results/index");
 		} catch (error: any) {
 			if (error.response) {
-				console.log("Server responded with:", error.response.data);
+				console.log("Server responded with:", error.response);
 			} else {
 				console.log("Error:", error.message);
 			}
